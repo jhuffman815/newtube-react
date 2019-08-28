@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image} from 'semantic-ui-react';
 import './VideoPreview.scss';
+import {Link} from 'react-router-dom';
 
 import {getShortNumberString} from '../../services/number/number-format';
 import {getVideoDurationString} from '../../services/date/date-format';
@@ -22,6 +23,7 @@ export class VideoPreview extends React.Component {
     const viewAndTimeString = VideoPreview.getFormattedViewAndTime(video);
     const horizontal = this.props.horizontal ? 'horizontal': null;
     return (
+    <Link to={{pathname: this.props.pathname, search: this.props.search}}>
       <div className={['video-preview', horizontal].join(' ')}>
         <div className='image-container'>
           <Image src={video.snippet.thumbnails.medium.url}/>
@@ -39,6 +41,7 @@ export class VideoPreview extends React.Component {
           </div>
         </div>
       </div>
+    </Link>
     );
   }
   static getFormattedViewAndTime(video) {

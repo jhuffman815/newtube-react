@@ -1,5 +1,6 @@
 import {all, call, put, fork} from 'redux-saga/effects';
 import {watchMostPopularVideos,  watchMostPopularVideosByCategory, watchVideoCategories} from './video';
+import {watchWatchDetails} from './watch';
 
 export function ignoreErrors(fn, ...args) {
   return () => {
@@ -12,7 +13,8 @@ export default function* (){
   yield all([
     fork(watchMostPopularVideos),
     fork(watchVideoCategories),
-    fork(watchMostPopularVideosByCategory)
+    fork(watchMostPopularVideosByCategory),
+    fork(watchWatchDetails)
   ]);
 }
 
