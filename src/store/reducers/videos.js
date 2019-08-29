@@ -1,6 +1,8 @@
 import {MOST_POPULAR, MOST_POPULAR_BY_CATEGORY, VIDEO_CATEGORIES} from '../actions/video';
 import {SUCCESS} from '../actions';
+import {WATCH_DETAILS} from '../actions/watch';
 import {createSelector} from 'reselect';
+import {VIDEO_LIST_RESPONSE} from '../api/youtube-response-types';
 
 const initialState = {
   byId: {},
@@ -10,18 +12,20 @@ const initialState = {
 
 export default function videos(state = initialState, action) {
   switch (action.type) {
-    case MOST_POPULAR[SUCCESS]:
-      return reduceFetchMostPopularVideos(action.response, state);
     case VIDEO_CATEGORIES[SUCCESS]:
       return reduceFetchVideoCategories(action.response, state);
+    case MOST_POPULAR[SUCCESS]:
+      return reduceFetchMostPopularVideos(action.response, state);
     case MOST_POPULAR_BY_CATEGORY[SUCCESS]:
       return reduceFetchMostPopularVideosByCategory(action.response, action.categories, state);
+    case WATCH_DETAILS[SUCCESS]:
+      return reduceWatchDetails(action.response, state);
     default:
       return state;
   }
 }
 
-function reduceFetchVideoCategories(response, prevState) {
+  function reduceFetchVideoCategories(response, prevState) {
   const categoryMapping = response.items.reduce((accumulator, category) => {
     accumulator[category.id] = category.snippet.title;
     return accumulator;
@@ -32,7 +36,7 @@ function reduceFetchVideoCategories(response, prevState) {
   };
 }
 
-function reduceFetchMostPopularVideos(response, prevState) {
+  function reduceFetchMostPopularVideos(response, prevState) {
     const videoMap = response.items.reduce((accumulator, video) => {
       accumulator[video.id] = video;
       return accumulator;
@@ -77,6 +81,22 @@ function reduceFetchMostPopularVideos(response, prevState) {
       byCategory: {...prevState.byCategory, ...byCategoryMap},
     };
   }
+
+  function reduceWatchDetails(responses, prevState) {
+    const videoDetailResponse = responses.find(r => r.result.kind === VIDEO_LIST_RESPONSE);
+    const video = videoDetailResponse.result.items[0];
+  
+    return {
+      ...prevState,
+      byId: {
+        ...prevState.byId,
+        [video.id]: video
+      },
+    };
+  }
+  
+
+
 
   function groupVideosByIdAndCategory(response) {
     const videos = response.items;
