@@ -1,20 +1,20 @@
 import React from 'react';
 import {connect} from "react-redux";
 import * as videoActions from "../../store/actions/video";
-import {bindActionCreators} from 'redux';
-import {getYoutubeLibraryLoaded} from '../../store/reducers/api';
 import './Home.scss';
 import {SideBar} from '../SideBar/SideBar';
 import HomeContent from './HomeContent/HomeContent';
+import {bindActionCreators} from 'redux';
+import {getYoutubeLibraryLoaded} from '../../store/reducers/api';
 import {getVideoCategoryIds, videoCategoriesLoaded, videosByCategoryLoaded} from '../../store/reducers/videos';
-export class Home extends React.Component {
+
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryIndex: 0,
     };
   }
-
 
   render() {
     return (
@@ -29,7 +29,7 @@ export class Home extends React.Component {
 
   componentDidMount() {
     if (this.props.youtubeLibraryLoaded) {
-      this.props.fetchCategoriesAndMostPopularVideos();
+      this.fetchCategoriesAndMostPopularVideos();
     }
   }
 
@@ -52,7 +52,6 @@ export class Home extends React.Component {
     });
   }
 
-
   fetchCategoriesAndMostPopularVideos() {
     this.props.fetchMostPopularVideos();
     this.props.fetchVideoCategories();
@@ -71,7 +70,6 @@ export class Home extends React.Component {
     }
     return false;
   }
-
 }
 
 function mapStateToProps(state) {
