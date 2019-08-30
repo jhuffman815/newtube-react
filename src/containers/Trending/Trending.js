@@ -10,6 +10,7 @@ import {
 import {getYoutubeLibraryLoaded} from '../../store/reducers/api';
 import {VideoList} from '../../components/VideoList/VideoList';
 
+
 class Trending extends React.Component {
   componentDidMount() {
     this.fetchTrendingVideos();
