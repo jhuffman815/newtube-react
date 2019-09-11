@@ -3,6 +3,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Explore the live demo here: https://jhuffman-youtube-clone.netlify.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
